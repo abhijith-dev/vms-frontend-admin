@@ -6,81 +6,64 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
-
-// Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-  return { id, date, name, shipTo, paymentMethod, amount };
-}
-
-const rows = [
-  createData(
-    0,
-    '16 Mar, 2019',
-    'Elvis Presley',
-    'Tupelo, MS',
-    'VISA ⠀•••• 3719',
-    312.44,
-  ),
-  createData(
-    1,
-    '16 Mar, 2019',
-    'Paul McCartney',
-    'London, UK',
-    'VISA ⠀•••• 2574',
-    866.99,
-  ),
-  createData(2, '16 Mar, 2019', 'Tom Scholz', 'Boston, MA', 'MC ⠀•••• 1253', 100.81),
-  createData(
-    3,
-    '16 Mar, 2019',
-    'Michael Jackson',
-    'Gary, IN',
-    'AMEX ⠀•••• 2000',
-    654.39,
-  ),
-  createData(
-    4,
-    '15 Mar, 2019',
-    'Bruce Springsteen',
-    'Long Branch, NJ',
-    'VISA ⠀•••• 5919',
-    212.79,
-  ),
-];
+import { loadOrder } from '../functions/general';
+import { Typography } from '@mui/material';
 
 function preventDefault(event) {
   event.preventDefault();
 }
 
 export default function Orders() {
+  const [rows,setRows] = React.useState([])
+
+  React.useEffect(()=>{
+    async function fetchOrder(){
+      let response = await loadOrder()
+      if(response.error){
+         alert(response.data)
+      }
+      else{
+        setRows(response.data)
+      }
+    }
+    fetchOrder()   
+  },[])
+
   return (
     <React.Fragment>
-      <Title>Recent Orders</Title>
+      <Title>Recent Transactions</Title>
       <Table size="small">
         <TableHead>
           <TableRow>
             <TableCell>Date</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Ship To</TableCell>
-            <TableCell>Payment Method</TableCell>
-            <TableCell align="right">Sale Amount</TableCell>
+            <TableCell>Time</TableCell>
+            <TableCell>Opertion</TableCell>
+            <TableCell>Amount</TableCell>
+            <TableCell align="right">Status</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
+          {
+            rows.length?(<>
+               {rows.map((row) => (
+            <TableRow key={row._id}>
               <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.shipTo}</TableCell>
-              <TableCell>{row.paymentMethod}</TableCell>
-              <TableCell align="right">{`$${row.amount}`}</TableCell>
+              <TableCell>{(row.time).split(" ")[0]}</TableCell>
+              <TableCell>{row.operation}</TableCell>
+              <TableCell>{parseFloat((row.amount)).toFixed(6)}</TableCell>
+              <TableCell align="right">{`${row.status}`}</TableCell>
             </TableRow>
           ))}
+          </>):(<>
+          <TableCell></TableCell>
+          <TableCell></TableCell>
+          <TableCell style={{textAlign:"center"}}>No orders yet..</TableCell>
+          <TableCell></TableCell>
+          <TableCell></TableCell>
+          </>)
+          }
         </TableBody>
       </Table>
-      <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
-        See more orders
-      </Link>
     </React.Fragment>
   );
 }

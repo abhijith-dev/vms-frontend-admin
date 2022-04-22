@@ -8,6 +8,7 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import {customerDetails} from '../functions/general';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -29,36 +30,36 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(status,name, type, model,m_id, e_id,d_id) {
-  return { status,name,type, model,m_id, e_id,d_id };
-}
-const rows = [
-  createData('yellow','Maruthi 800', 1, '2017-DM','id', 'id','id'),
-  createData('red','Maruthi 800', 1, '2017-DM','id', 'id','id'),
-  createData('green','Maruthi 800', 1, '2017-DM','id', 'id','id'),
-  createData('yellow','Maruthi 800', 1, '2017-DM','id', 'id','id'),
-  createData('yellow','Maruthi 800', 1, '2017-DM','id', 'id','id'),
-  createData('green','Maruthi 800', 1, '2017-DM','id', 'id','id'),
-];
+
 export default function Customers() {
+  const [rows,setRows] = React.useState([])
+  React.useEffect(()=>{
+     async function loadCustomer(){
+      let data = await customerDetails()
+      setRows(data)
+     }
+     loadCustomer()
+  },[])
   return (
     <Grid item xs={12}>
     <Paper style={{marginTop:"1rem"}} sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
     <TableContainer component={Paper}>
-    <Table sx={{ minWidth: 700 }} aria-label="customized table">
+    <Table sx={{ minWidth: 600 }} aria-label="customized table">
       <TableHead>
         <TableRow>
           <StyledTableCell align="right">Name</StyledTableCell>
-          <StyledTableCell align="right">Model</StyledTableCell>
-          <StyledTableCell align="right">Type</StyledTableCell>
+          <StyledTableCell align="right">Email</StyledTableCell>
+          <StyledTableCell align="right">City</StyledTableCell>
+          <StyledTableCell align="right">phone number</StyledTableCell>
         </TableRow>
       </TableHead>
       <TableBody>
         {rows.map((row) => (
-          <StyledTableRow key={row.name}>
+          <StyledTableRow key={row._id}>
             <StyledTableCell align="right">{row.name}</StyledTableCell>
-            <StyledTableCell align="right">{row.model}</StyledTableCell>
-            <StyledTableCell align="right">{row.type}</StyledTableCell>
+            <StyledTableCell align="right">{row.email}</StyledTableCell>
+            <StyledTableCell align="right">{row.city}</StyledTableCell>
+            <StyledTableCell align="right">{row.phone}</StyledTableCell>
           </StyledTableRow>
         ))}
       </TableBody>

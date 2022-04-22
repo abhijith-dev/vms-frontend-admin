@@ -4,10 +4,11 @@ import Orders from './Orders';
 import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
+import './main.css'
 
 export default function Home() {
   return (
-    <Grid container spacing={3}>
+    <Grid style={{fontFamily:'custom'}} container spacing={3}>
     {/* Chart */}
     <Grid item xs={12} md={8} lg={9}>
       <Paper
