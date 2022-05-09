@@ -1,18 +1,24 @@
 import * as React from 'react';
-import Link from '@mui/material/Link';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
-import { loadOrder } from '../functions/general';
-import { Typography } from '@mui/material';
+import { downloadFile, loadOrder } from '../functions/general';
+import { Button, Grid, Typography } from '@mui/material';
+import {Download} from '@mui/icons-material'
+import fileDownload from 'js-file-download'
 
 function preventDefault(event) {
   event.preventDefault();
 }
-
+const downloadReport = async()=>{
+  let response = await downloadFile()
+  let date = new Date()
+  let fileName = `Report-${date.toDateString()}-${Date.now()}.csv`
+  fileDownload(response,fileName)
+}
 export default function Orders() {
   const [rows,setRows] = React.useState([])
 
@@ -63,6 +69,14 @@ export default function Orders() {
           </>)
           }
         </TableBody>
+        <Grid mt={3} ml={5}>
+        <Button
+        style={{backgroundColor:"#222",color:"#fff"}}
+        onClick={downloadReport}
+        >
+         <Download />Download
+        </Button>
+        </Grid>
       </Table>
     </React.Fragment>
   );

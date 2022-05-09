@@ -9,7 +9,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Button} from '@mui/material';
-import {Edit,Delete,Circle, CallMerge} from '@mui/icons-material';
+import {Edit,Delete} from '@mui/icons-material';
 import Dialog from '@mui/material/Dialog';
 import Title from './Title';
 import AppBar from '@mui/material/AppBar';
@@ -230,25 +230,25 @@ const editDriver = async(e)=>{
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-          <StyledTableCell align="right" >Image</StyledTableCell>
-            <StyledTableCell align="right">Name</StyledTableCell>
-            <StyledTableCell align="right">Age</StyledTableCell>
-            <StyledTableCell align="right">Location</StyledTableCell>
-            <StyledTableCell align="right">Phone</StyledTableCell>
-            <StyledTableCell align="right">edit</StyledTableCell>
-            <StyledTableCell align="right">delete</StyledTableCell>
+          <StyledTableCell align="center" >Image</StyledTableCell>
+            <StyledTableCell align="center">Name</StyledTableCell>
+            <StyledTableCell align="center">Age</StyledTableCell>
+            <StyledTableCell align="center">Location</StyledTableCell>
+            <StyledTableCell align="center">Phone</StyledTableCell>
+            <StyledTableCell align="center">edit</StyledTableCell>
+            <StyledTableCell align="center">delete</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
             <StyledTableRow key={row._id}>
-              <StyledTableCell align="right"><img src={row.picture} alt="pp" width={50} height={50} /></StyledTableCell>
-              <StyledTableCell align="right">{row.name}</StyledTableCell>
-              <StyledTableCell align="right">{row.age}</StyledTableCell>
-              <StyledTableCell align="right">{row.location}</StyledTableCell>
-              <StyledTableCell align="right">{row.phone}</StyledTableCell>
-              <StyledTableCell align="right"><Button onClick={()=>{handleEClickOpen(row._id)}} style={{color:"#222"}}><Edit /></Button></StyledTableCell>
-              <StyledTableCell align="right"><Button onClick={()=>{handleDClickOpen(row._id)}} style={{color:"#222"}} ><Delete /></Button></StyledTableCell>
+              <StyledTableCell align="center"><img src={row.picture} alt="pp" style={{borderRadius:"50%"}} width={50} height={50} /></StyledTableCell>
+              <StyledTableCell align="center">{row.name}</StyledTableCell>
+              <StyledTableCell align="center">{row.age}</StyledTableCell>
+              <StyledTableCell align="center">{row.location}</StyledTableCell>
+              <StyledTableCell align="center">{row.phone}</StyledTableCell>
+              <StyledTableCell align="center"><Button onClick={()=>{handleEClickOpen(row._id)}} style={{color:"#222"}}><Edit /></Button></StyledTableCell>
+              <StyledTableCell align="center"><Button onClick={()=>{handleDClickOpen(row._id)}} style={{color:"#222"}} ><Delete /></Button></StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

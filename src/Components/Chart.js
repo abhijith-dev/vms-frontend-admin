@@ -2,29 +2,18 @@ import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
 import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
 import Title from './Title';
-
-// Generate Sales Data
-function createData(time, amount) {
-  return { time, amount };
-}
-
-const data = [
-  createData('00:00', 0.0004),
-  createData('03:00', 0.00300),
-  createData('06:00', -0.00600),
-  createData('09:00', 0.00800),
-  createData('12:00', -0.001500),
-  createData('15:00', 0.002000),
-  createData('18:00', 0.002400),
-  createData('21:00', -0.002400),
-  createData('24:00', 0.000648),
-  createData('24:30', 0.0000048),
-  createData('24:45', 0.000458)
-];
+import { chartData } from '../functions/general';
 
 export default function Chart() {
+  const [data,setData]=React.useState([])
+  React.useEffect(()=>{
+     async function fetch(){
+       let values = await chartData()
+       setData(values)
+     }
+     fetch()
+  },[])
   const theme = useTheme();
-
   return (
     <React.Fragment>
       <Title>Today</Title>

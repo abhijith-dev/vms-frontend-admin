@@ -47,19 +47,21 @@ export default function Customers() {
     <Table sx={{ minWidth: 600 }} aria-label="customized table">
       <TableHead>
         <TableRow>
-          <StyledTableCell align="right">Name</StyledTableCell>
-          <StyledTableCell align="right">Email</StyledTableCell>
-          <StyledTableCell align="right">City</StyledTableCell>
-          <StyledTableCell align="right">phone number</StyledTableCell>
+        <StyledTableCell align="center">Id</StyledTableCell>
+          <StyledTableCell align="center">Name</StyledTableCell>
+          <StyledTableCell align="center">Email</StyledTableCell>
+          <StyledTableCell align="center">City</StyledTableCell>
+          <StyledTableCell align="center">phone number</StyledTableCell>
         </TableRow>
       </TableHead>
       <TableBody>
         {rows.map((row) => (
           <StyledTableRow key={row._id}>
-            <StyledTableCell align="right">{row.name}</StyledTableCell>
-            <StyledTableCell align="right">{row.email}</StyledTableCell>
-            <StyledTableCell align="right">{row.city}</StyledTableCell>
-            <StyledTableCell align="right">{row.phone}</StyledTableCell>
+            <StyledTableCell align="center">{row._id}</StyledTableCell>
+            <StyledTableCell align="center">{row.name}</StyledTableCell>
+            <StyledTableCell align="center">{row.email}</StyledTableCell>
+            <StyledTableCell align="center">{row.city}</StyledTableCell>
+            <StyledTableCell align="center">{row.phone}</StyledTableCell>
           </StyledTableRow>
         ))}
       </TableBody>

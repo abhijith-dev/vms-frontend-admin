@@ -147,3 +147,12 @@ export async function mapping(body){
     return response
 }
 
+export async function deleteVehicle(id){
+    let url = `${ENV.API_BASE_URL}${ENV.DELETE_VEHICLE}/${id}`
+    let method = 'DELETE'
+    await axios({
+        url,
+        method,
+        headers
+    })
+ }

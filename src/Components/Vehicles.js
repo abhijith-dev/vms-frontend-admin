@@ -26,7 +26,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import {addVehicles,fetchVehicleDetails,editVehicles,fecthDrivers,mapping} from '../functions/vehicle';
+import {addVehicles,fetchVehicleDetails,editVehicles,fecthDrivers,mapping,deleteVehicle} from '../functions/vehicle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
@@ -83,6 +83,8 @@ export default function Vehicles({side}) {
   const [eopen, setEOpen] = React.useState(false);
    const [drivers,setDrivers] = React.useState([])
    const [mapid,setMapId] = React.useState('')
+   const [id,setId] =React.useState('')
+
   const handleEClickOpen = (id) => {
     let selected = rows.filter(ele=>ele._id === id)
     setInfo(selected)
@@ -93,7 +95,8 @@ export default function Vehicles({side}) {
   };
   //delete vehicle
   const [dopen, setDOpen] = React.useState(false);
-  const handleDClickOpen = () => {
+  const handleDClickOpen = (id) => {
+    setId(id)
     setDOpen(true);
   };
   const handleDClose = () => {
@@ -110,7 +113,11 @@ export default function Vehicles({side}) {
   const handleMClose = () => {
     setMOpen(false);
   };
-
+  const deleteVehicles= async()=>{
+    await deleteVehicle(id)
+    setId('')
+    setDOpen(false);
+ }
   //add info
   const [v_name,setVname] = React.useState('')
   const [v_company,setVcompany] = React.useState('')
@@ -286,25 +293,25 @@ export default function Vehicles({side}) {
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-          <StyledTableCell align="right" >Status</StyledTableCell>
-            <StyledTableCell align="right">Name</StyledTableCell>
-            <StyledTableCell align="right">Model</StyledTableCell>
-            <StyledTableCell align="right">Type</StyledTableCell>
-            <StyledTableCell align="right">Mapping</StyledTableCell>
-            <StyledTableCell align="right">edit</StyledTableCell>
-            <StyledTableCell align="right">delete</StyledTableCell>
+          <StyledTableCell align="center" >Status</StyledTableCell>
+            <StyledTableCell align="center">Name</StyledTableCell>
+            <StyledTableCell align="center">Model</StyledTableCell>
+            <StyledTableCell align="center">Type</StyledTableCell>
+            <StyledTableCell align="center">Mapping</StyledTableCell>
+            <StyledTableCell align="center">edit</StyledTableCell>
+            <StyledTableCell align="center">delete</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
             <StyledTableRow key={row.name}>
-              <StyledTableCell align="right"><Circle style={row.status==="Idle" && row.drivers === undefined?{color:"red"}:row.status==="Idle" && row.drivers !== undefined?{color:"yellow"}:{color:"green"}} /></StyledTableCell>
-              <StyledTableCell align="right">{row.name}</StyledTableCell>
-              <StyledTableCell align="right">{row.model}</StyledTableCell>
-              <StyledTableCell align="right">{row.v_type}</StyledTableCell>
-              <StyledTableCell align="right"><Button onClick={()=>{handleMClickOpen(row._id)}} style={{color:"#222"}}><CallMerge/></Button></StyledTableCell>
-              <StyledTableCell align="right"><Button onClick={()=>{handleEClickOpen(row._id)}} style={{color:"#222"}}><Edit /></Button></StyledTableCell>
-              <StyledTableCell align="right"><Button onClick={handleDClickOpen} style={{color:"#222"}} ><Delete /></Button></StyledTableCell>
+              <StyledTableCell align="center"><Circle style={row.status==="Idle" && (row.drivers === undefined || row.drivers === null)?{color:"red"}:row.status==="Idle" && (row.drivers !== undefined || row.drivers !== null)?{color:"yellow"}:{color:"green"}} /></StyledTableCell>
+              <StyledTableCell align="center">{row.name}</StyledTableCell>
+              <StyledTableCell align="center">{row.model}</StyledTableCell>
+              <StyledTableCell align="center">{row.v_type}</StyledTableCell>
+              <StyledTableCell align="center"><Button onClick={()=>{handleMClickOpen(row._id)}} style={{color:"#222"}}><CallMerge/></Button></StyledTableCell>
+              <StyledTableCell align="center"><Button onClick={()=>{handleEClickOpen(row._id)}} style={{color:"#222"}}><Edit /></Button></StyledTableCell>
+              <StyledTableCell align="center"><Button onClick={()=>{handleDClickOpen(row._id)}} style={{color:"#222"}} ><Delete /></Button></StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
@@ -729,7 +736,7 @@ export default function Vehicles({side}) {
         </DialogContent>
         <DialogActions>
           <Button style={{color:'#222'}} onClick={handleDClose}>no</Button>
-          <Button style={{color:'#222'}}>yes</Button>
+          <Button style={{color:'#222'}} onClick={deleteVehicles}>yes</Button>
         </DialogActions>
       </Dialog>
 
@@ -775,7 +782,7 @@ export default function Vehicles({side}) {
           }
           sx={{ mb: 2 }}
         >
-          vehicle updated successfully
+          vehicle mapped successfully
         </Alert>
       </Collapse>
     </Box>
@@ -784,7 +791,7 @@ export default function Vehicles({side}) {
           </Toolbar>
         </AppBar>
         <Box component="form" validate={true} onSubmit={mapDriver} sx={{ mt: 1 }} > 
-        <Grid container style={{display:"flex",alignItems:"center",justifyContent:"center",marginTop:"3rem"}}  spacing={5}>
+        <Grid container style={{display:"flex",alignItems:"center",justifyContent:"center",marginTop:"5rem"}}  spacing={5}>
           <Grid item xs={12} sm={8}>
         <FormControl variant="standard" fullWidth >
         <InputLabel id="demo-simple-select-standard-label">Driver details</InputLabel>
@@ -803,11 +810,13 @@ export default function Vehicles({side}) {
         </Select>
          </FormControl>
         </Grid>
-        <Button variant="contained" type="submit" style={side?{backgroundColor:"#222",marginLeft:"50rem"}:{backgroundColor:"#222"}}>Map</Button>
+        <Grid item xs={12} sm={8}>
+        <Button variant="contained" type="submit" style={side?{backgroundColor:"#222"}:{backgroundColor:"#222"}}>Map Driver</Button>
+        </Grid>
         </Grid> 
         </Box> 
       </Dialog>
-    </>):(<alert>no driver for mapping</alert>)
+    </>):null
   }
   </Grid>
   </ThemeProvider>

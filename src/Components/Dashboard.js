@@ -21,7 +21,8 @@ import Fuel from './Fuel';
 import Tracking from './Tracking';
 import Bookings from './Bookings';
 import MainListItems from './listItems';
-
+import {Button} from '@mui/material'
+import {Logout} from '@mui/icons-material';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -98,7 +99,7 @@ function DashboardContent() {
         <AppBar style={{backgroundColor:"#222"}} position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: '24px', // keep right padding when drawer closed
+              pr: '24px', 
             }}
           >
             <IconButton
@@ -122,6 +123,7 @@ function DashboardContent() {
             >
               VMS
             </Typography>
+            <Button style={{color:'#fff'}} title={'logout'} onClick={()=>{localStorage.clear();window.location.reload()}}><Logout/></Button>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>

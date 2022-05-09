@@ -64,7 +64,15 @@ export default function Login() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
+      <Grid container component="main" sx={{
+        height:'100vh',
+        backgroundImage: 'url(https://scwcontent.affino.com/AcuCustom/Sitename/DAM/023/various_mobility_services_Adobe.jpg)',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor: (t) =>
+        t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}>
         <CssBaseline />
         <Grid item xs={4} sm={4} md={3.5}></Grid>
         <Grid item xs={6} sm={8} md={5} component={Paper} elevation={6} square>
@@ -145,11 +153,3 @@ export default function Login() {
 // xs={false}
 // sm={4}
 // md={7}
-// sx={{
-//   backgroundImage: 'url(https://scwcontent.affino.com/AcuCustom/Sitename/DAM/023/various_mobility_services_Adobe.jpg)',
-//   backgroundRepeat: 'no-repeat',
-//   backgroundColor: (t) =>
-//     t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-//   backgroundSize: 'cover',
-//   backgroundPosition: 'center',
-// }}

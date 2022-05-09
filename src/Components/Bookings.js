@@ -8,6 +8,7 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { bookingDetails } from '../functions/general';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -28,19 +29,16 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-
-function createData(status,name, type, model,m_id, e_id,d_id) {
-  return { status,name,type, model,m_id, e_id,d_id };
-}
-const rows = [
-  createData('yellow','Maruthi 800', 1, '2017-DM','id', 'id','id'),
-  createData('red','Maruthi 800', 1, '2017-DM','id', 'id','id'),
-  createData('green','Maruthi 800', 1, '2017-DM','id', 'id','id'),
-  createData('yellow','Maruthi 800', 1, '2017-DM','id', 'id','id'),
-  createData('yellow','Maruthi 800', 1, '2017-DM','id', 'id','id'),
-  createData('green','Maruthi 800', 1, '2017-DM','id', 'id','id'),
-];
+const rows=[]
 export default function Bookings() {
+  const [rows,setRows] = React.useState([])
+  React.useEffect(()=>{
+     async function fetch(){
+       let bookings = await bookingDetails()
+       setRows(bookings)
+     }
+     fetch()
+  },[])
   return (
     <Grid item xs={12}>
     <Paper style={{marginTop:"1rem"}} sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
@@ -48,17 +46,23 @@ export default function Bookings() {
     <Table sx={{ minWidth: 700 }} aria-label="customized table">
       <TableHead>
         <TableRow>
-          <StyledTableCell align="right">Name</StyledTableCell>
-          <StyledTableCell align="right">Model</StyledTableCell>
-          <StyledTableCell align="right">Type</StyledTableCell>
+          <StyledTableCell align="center">From</StyledTableCell>
+          <StyledTableCell align="center">To</StyledTableCell>
+          <StyledTableCell align="center">Amount</StyledTableCell>
+          <StyledTableCell align="center">Customer</StyledTableCell>
+          <StyledTableCell align="center">Date</StyledTableCell>
+          <StyledTableCell align="center">Status</StyledTableCell>
         </TableRow>
       </TableHead>
       <TableBody>
         {rows.map((row) => (
-          <StyledTableRow key={row.name}>
-            <StyledTableCell align="right">{row.name}</StyledTableCell>
-            <StyledTableCell align="right">{row.model}</StyledTableCell>
-            <StyledTableCell align="right">{row.type}</StyledTableCell>
+          <StyledTableRow key={row._id}>
+            <StyledTableCell align="center">{row.from}</StyledTableCell>
+            <StyledTableCell align="center">{row.to}</StyledTableCell>
+            <StyledTableCell align="center">{row.amount} ETH</StyledTableCell>
+            <StyledTableCell align="center">{row.user}</StyledTableCell>
+            <StyledTableCell align="center">{(row.date).split("GMT")[0]}</StyledTableCell>
+            <StyledTableCell align="center">{row.transaction === null?'On Raid':'Completed'}</StyledTableCell>
           </StyledTableRow>
         ))}
       </TableBody>
